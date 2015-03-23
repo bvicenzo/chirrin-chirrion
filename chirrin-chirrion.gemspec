@@ -1,11 +1,11 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'chirrin/chirrion/version'
+require 'chirrin-chirrion/version'
 
 Gem::Specification.new do |spec|
   spec.name          = 'chirrin-chirrion'
-  spec.version       = Chirrin::Chirrion::VERSION
+  spec.version       = ChirrinChirrion::VERSION
   spec.authors       = ['Bruno Vicenzo']
   spec.email         = ['greenmetal@gmail.com']
 
@@ -25,4 +25,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'bundler', '~> 1.8'
   spec.add_development_dependency 'rake', '~> 10.0'
   spec.add_development_dependency 'rspec', '~> 3.2.0'
+  spec.add_development_dependency 'redis', '~> 3.2.1'
 end
