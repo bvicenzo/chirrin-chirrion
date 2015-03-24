@@ -7,7 +7,7 @@ Where there is a magic object which the the key word 'chirrin' gives a new thing
 
 ## Intall
 
-   gem install chirrin-Chirrion
+   gem install chirrin-chirrion
 
 ## How to use
 
