@@ -30,6 +30,16 @@ ChirrinChirrion.add_toggle('new_user_register_validation')
 ChirrinChirrion.remove_toggle('new_user_register_validation')
 ```
 
+### Making a toggle active
+```ruby
+ChirrinChirrion.chirrin('new_user_register_validation')
+```
+
+### Making a toggle inactive
+```ruby
+ChirrinChirrion.chirrion('new_user_register_validation')
+```
+
 ### Using a toggle with if else
 ```ruby
 if ChirrinChirrion.chirrin?('new_user_register_validation')

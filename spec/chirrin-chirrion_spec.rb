@@ -45,12 +45,54 @@ describe ChirrinChirrion do
     end
   end
 
+  describe ".chirrin" do
+    let(:toggle_name) { 'my_toggle' }
+    before { ChirrinChirrion.config(database_adapter: database_adapter) }
+
+    context 'when the database adapter returns ok' do
+      before { allow(database_adapter).to receive(:activate) { true } }
+
+      it 'returns true' do
+        expect(subject.chirrin(toggle_name)).to eq(true)
+      end
+    end
+
+    context 'when the database adapter returns nok' do
+      before { allow(database_adapter).to receive(:activate) { false } }
+
+      it 'returns false' do
+        expect(subject.chirrin(toggle_name)).to eq(false)
+      end
+    end
+  end
+
+  describe ".chirrion" do
+    let(:toggle_name) { 'my_toggle' }
+    before { ChirrinChirrion.config(database_adapter: database_adapter) }
+
+    context 'when the database adapter returns ok' do
+      before { allow(database_adapter).to receive(:inactivate) { true } }
+
+      it 'returns true' do
+        expect(subject.chirrion(toggle_name)).to eq(true)
+      end
+    end
+
+    context 'when the database adapter returns nok' do
+      before { allow(database_adapter).to receive(:inactivate) { false } }
+
+      it 'returns false' do
+        expect(subject.chirrion(toggle_name)).to eq(false)
+      end
+    end
+  end
+
   describe ".chirrin?" do
     let(:toggle_name) { 'my_toggle' }
     before { ChirrinChirrion.config(database_adapter: database_adapter) }
 
     context 'when the database adapter returns ok' do
-      before { allow(database_adapter).to receive(:exists?) { true } }
+      before { allow(database_adapter).to receive(:active?) { true } }
 
       it 'returns true' do
         expect(subject.chirrin?(toggle_name)).to eq(true)
@@ -58,7 +100,7 @@ describe ChirrinChirrion do
     end
 
     context 'when the database adapter returns nok' do
-      before { allow(database_adapter).to receive(:exists?) { false } }
+      before { allow(database_adapter).to receive(:active?) { false } }
 
       it 'returns false' do
         expect(subject.chirrin?(toggle_name)).to eq(false)
@@ -71,7 +113,7 @@ describe ChirrinChirrion do
     before { ChirrinChirrion.config(database_adapter: database_adapter) }
 
     context 'when the database adapter returns ok' do
-      before { allow(database_adapter).to receive(:exists?) { true } }
+      before { allow(database_adapter).to receive(:inactive?) { false } }
 
       it 'returns false' do
         expect(subject.chirrion?(toggle_name)).to eq(false)
@@ -79,7 +121,7 @@ describe ChirrinChirrion do
     end
 
     context 'when the database adapter returns nok' do
-      before { allow(database_adapter).to receive(:exists?) { false } }
+      before { allow(database_adapter).to receive(:inactive?) { true } }
 
       it 'returns true' do
         expect(subject.chirrion?(toggle_name)).to eq(true)
@@ -92,7 +134,7 @@ describe ChirrinChirrion do
     before { ChirrinChirrion.config(database_adapter: database_adapter) }
 
     context 'when the toggle is turned on' do
-      before { allow(database_adapter).to receive(:exists?) { true } }
+      before { allow(database_adapter).to receive(:active?) { true } }
 
       context 'and instruction for chirrin is not a proc' do
         let(:for_chirrin) { 'Margarida' }
@@ -114,7 +156,7 @@ describe ChirrinChirrion do
     end
 
     context 'when the database adapter returns nok' do
-      before { allow(database_adapter).to receive(:exists?) { false } }
+      before { allow(database_adapter).to receive(:active?) { false } }
 
       context 'and instruction for chirrin is not a proc' do
         let(:for_chirrin) { 'Margarida' }
