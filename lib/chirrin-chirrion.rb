@@ -1,5 +1,7 @@
-require "chirrin-chirrion/version"
-require "chirrin-chirrion/database_adapters/redis_adapter"
+require 'chirrin-chirrion/version'
+require 'chirrin-chirrion/errors'
+require 'chirrin-chirrion/database_adapters/redis_adapter'
+require 'json'
 
 module ChirrinChirrion
 
@@ -26,8 +28,8 @@ module ChirrinChirrion
   # ChirrinChirrion.add_toggle('my_active_feature')
   # ChirrinChirrion.add_toggle('my_inactive_feature')
   #
-  def self.add_toggle(toggle_name)
-    database_adapter.add_toggle(toggle_name)
+  def self.add_toggle(toggle_name, toggle_info = {})
+    database_adapter.add_toggle(toggle_name, toggle_info)
   end
 
   # Removes a toggle from the database

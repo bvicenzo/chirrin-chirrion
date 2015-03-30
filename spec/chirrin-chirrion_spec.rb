@@ -11,7 +11,7 @@ describe ChirrinChirrion do
       before { allow(database_adapter).to receive(:add_toggle) { true } }
 
       it 'returns true' do
-        expect(subject.add_toggle(toggle_name)).to eq(true)
+        expect(subject.add_toggle(toggle_name, {active: true, description: 'This feature do that'})).to eq(true)
       end
     end
 
@@ -19,7 +19,7 @@ describe ChirrinChirrion do
       before { allow(database_adapter).to receive(:add_toggle) { false } }
 
       it 'returns false' do
-        expect(subject.add_toggle(toggle_name)).to eq(false)
+        expect(subject.add_toggle(toggle_name, {active: true, description: 'This feature do that'})).to eq(false)
       end
     end
   end

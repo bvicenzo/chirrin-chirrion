@@ -9,13 +9,15 @@ describe RedisAdapter do
     before { allow(redis_database).to receive(:hset) { 'OK' } }
 
     it 'adds the toggle to database' do
-      expect(redis_database).to receive(:hset).with('chirrin-chirrion-toggles', toggle_name, 'i') { 1 }
-      subject.add_toggle(toggle_name)
+      toggle_info = {description: 'This toggle active de Feature X which allow us to do this'}
+      expect(redis_database).to receive(:hset).with('chirrin-chirrion-toggles', toggle_name, {description: 'This toggle active de Feature X which allow us to do this', active: false}.to_json) { 1 }
+      subject.add_toggle(toggle_name, toggle_info)
     end
 
     it 'adds the active toggle to database' do
-      expect(redis_database).to receive(:hset).with('chirrin-chirrion-toggles', toggle_name, 'a') { 0 }
-      subject.add_toggle(toggle_name, 'a')
+      toggle_info = {active: true, description: 'This toggle active de Feature Y which allow us to do that'}
+      expect(redis_database).to receive(:hset).with('chirrin-chirrion-toggles', toggle_name, {active: true, description: 'This toggle active de Feature Y which allow us to do that'}.to_json) { 1 }
+      subject.add_toggle(toggle_name, toggle_info)
     end
 
     it 'returns true' do
@@ -37,25 +39,49 @@ describe RedisAdapter do
   end
 
   describe '#activate' do
-    it 'makes a toggle active' do
-      expect(subject).to receive(:add_toggle).with(toggle_name, 'a') { true }
-      subject.activate(toggle_name)
+    context 'when there is no toggle' do
+      it 'raises toggle not found error' do
+        expect(redis_database).to receive(:hget).with('chirrin-chirrion-toggles', toggle_name) { nil }
+        expect{subject.activate(toggle_name)}.to raise_error(ChirrinChirrion::Errors::ToggleNotFound, "The toggle #{toggle_name} was not found")
+      end
+    end
+
+    context 'when there is toggle' do
+      it 'makes a toggle active' do
+        toggle_info           = {active: false, description: 'This toggle active de Feature Y which allow us to do that'}
+        activated_toggle_info = {active: true, description: 'This toggle active de Feature Y which allow us to do that'}
+        expect(redis_database).to receive(:hget).with('chirrin-chirrion-toggles', toggle_name) { toggle_info.to_json }
+        expect(redis_database).to receive(:hset).with('chirrin-chirrion-toggles', toggle_name, activated_toggle_info.to_json) { 1 }
+        subject.activate(toggle_name)
+      end
     end
   end
 
   describe '#inactivate' do
-    it 'makes a toggle active' do
-      expect(subject).to receive(:add_toggle).with(toggle_name, 'i') { true }
-      subject.inactivate(toggle_name)
+    context 'when there is no toggle' do
+      it 'raises toggle not found error' do
+        expect(redis_database).to receive(:hget).with('chirrin-chirrion-toggles', toggle_name) { nil }
+        expect{subject.inactivate(toggle_name)}.to raise_error(ChirrinChirrion::Errors::ToggleNotFound, "The toggle #{toggle_name} was not found")
+      end
+    end
+
+    context 'when there is toggle' do
+      it 'makes a toggle inactive' do
+        toggle_info             = { active: true, description: 'This toggle active de Feature Y which allow us to do that'}
+        inactivated_toggle_info = { active: false, description: 'This toggle active de Feature Y which allow us to do that'}
+        expect(redis_database).to receive(:hget).with('chirrin-chirrion-toggles', toggle_name) { toggle_info.to_json }
+        expect(redis_database).to receive(:hset).with('chirrin-chirrion-toggles', toggle_name, inactivated_toggle_info.to_json) { 1 }
+        subject.inactivate(toggle_name)
+      end
     end
   end
 
   describe '#active?' do
     context 'when the toggle is active' do
-      before { allow(redis_database).to receive(:hget) { 'a' } }
+      before { allow(redis_database).to receive(:hget) { {active: true}.to_json } }
 
       it 'search the toggle on database' do
-        expect(redis_database).to receive(:hget).with('chirrin-chirrion-toggles', toggle_name) { 'a' }
+        expect(redis_database).to receive(:hget).with('chirrin-chirrion-toggles', toggle_name) { {active: true}.to_json }
         subject.active?(toggle_name)
       end
 
@@ -65,10 +91,10 @@ describe RedisAdapter do
     end
 
     context 'when the toggle is inactive' do
-      before { allow(redis_database).to receive(:hget) { 'i' } }
+      before { allow(redis_database).to receive(:hget) { {active: false}.to_json } }
 
       it 'search the toggle on database' do
-        expect(redis_database).to receive(:hget).with('chirrin-chirrion-toggles', toggle_name) { 'i' }
+        expect(redis_database).to receive(:hget).with('chirrin-chirrion-toggles', toggle_name) { {active: false}.to_json }
         subject.active?(toggle_name)
       end
 
