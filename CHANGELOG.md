@@ -1,9 +1,11 @@
 # Change Log
 All notable changes of the project you will find here.
 
-## [Unreleased]
+## [0.2.0] - 2015-03-30
 ### Changed
+- Redis adaper inside of the module ChirrinChirrion::DatabaseAdapters
 - Redis adaper changed to manage togles inside a Hash.
+- Now is possible to define a description for the toggle, which can let other people know what this toggle does
 - Way to register toggles, but keep them inactives.
 
 ## [0.1.0] - 2015-03-23
