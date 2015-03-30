@@ -41,7 +41,7 @@ module ChirrinChirrion
     database_adapter.remove_toggle(toggle_name)
   end
 
-  # Makes a toggle active
+  # Makes a toggle active (the toggle must already be registered)
   #
   # ChirrinChirrion.chirrin('my_inactive_feature')
   # ChirrinChirrion.chirrin?('my_inactive_feature') #=> true
@@ -59,10 +59,11 @@ module ChirrinChirrion
     database_adapter.inactivate(toggle_name)
   end
 
-  # Checks if a toggle active
+  # Checks if a toggle active (the toggle must already be registered)
   #
   # ChirrinChirrion.chirrin?('my_active_feature') #=> true
   # ChirrinChirrion.chirrin?('my_inactive_feature') #=> false
+  # ChirrinChirrion.chirrin?('my_unregistered_toggle') #=> false
   #
   def self.chirrin?(toggle_name)
     database_adapter.active?(toggle_name)
@@ -72,6 +73,7 @@ module ChirrinChirrion
   #
   # ChirrinChirrion.chirrion?('my_active_feature') #=> false
   # ChirrinChirrion.chirrion?('my_inactive_feature') #=> true
+  # ChirrinChirrion.chirrin?('my_unregistered_toggle') #=> true
   #
   def self.chirrion?(toggle_name)
     database_adapter.inactive?(toggle_name)

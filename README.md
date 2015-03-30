@@ -22,7 +22,7 @@ ChirrinChirrion.config(database_adapter: redis_adapter)
 
 ### Adding a toggle
 ```ruby
-ChirrinChirrion.add_toggle('new_user_register_validation')
+ChirrinChirrion.add_toggle('new_user_register_validation', {active: true, description: 'When this is active, gender, age and phone number are not required'})
 ```
 
 ### Removing a toggle
