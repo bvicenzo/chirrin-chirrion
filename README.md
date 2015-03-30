@@ -16,7 +16,7 @@ Where there is a magic object which the the key word 'chirrin' gives a new thing
 ```ruby
 require 'chirrin-chirrion'
 redis_connection = Redis.new
-redis_adapter    = RedisAdapter.new(redis_connection)
+redis_adapter    = ChirrinChirrion::DatabaseAdapters::RedisAdapter.new(redis_connection)
 ChirrinChirrion.config(database_adapter: redis_adapter)
 ```
 
