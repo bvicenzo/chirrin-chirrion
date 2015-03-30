@@ -1,9 +1,9 @@
 require 'spec_helper'
 
-describe RedisAdapter do
+describe ChirrinChirrion::DatabaseAdapters::RedisAdapter do
   let(:toggle_name) { 'my_toggle' }
   let(:redis_database) { double }
-  subject { RedisAdapter.new(redis_database) }
+  subject { ChirrinChirrion::DatabaseAdapters::RedisAdapter.new(redis_database) }
 
   describe '#add_toggle' do
     before { allow(redis_database).to receive(:hset) { 'OK' } }
