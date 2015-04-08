@@ -5,7 +5,7 @@ Chirrin Chirrion is a gem to, easily, change the software behavior for new featu
 The gem name was inspired in a funny Chapolim Colorado [episode](https://youtu.be/dzgrex7g_zY) called 'Chirrin Chirrion del Diablo'.
 Where there is a magic object which the the key word 'chirrin' gives a new thing and 'chirrion' takes it away.
 
-## Intall
+## Install
 
    gem install chirrin-chirrion
 
