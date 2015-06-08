@@ -1,6 +1,11 @@
 # Change Log
 All notable changes of the project you will find here.
 
+## [0.3.0] - 2015-06-08
+### Changed
+ - Redis adaprer: methods #activate and #inactivate with beng because they raise exception
+ - ChirrinChirrion: methods #chirrin and #chirrion with beng because they raise exception
+
 ## [0.2.0] - 2015-03-30
 ### Changed
 - Redis adaper inside of the module ChirrinChirrion::DatabaseAdapters
