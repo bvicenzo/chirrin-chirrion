@@ -35,9 +35,9 @@ module ChirrinChirrion
 
       # Makes a toggle, existent or not, active:
       #
-      # redis_adapter.activate('my_feature')
+      # redis_adapter.activate!('my_feature')
       #
-      def activate(toggle_name)
+      def activate!(toggle_name)
         toggle_info = get_toggle_info(toggle_name)
         raise ChirrinChirrion::Errors::ToggleNotFound, "The toggle #{toggle_name} was not found" unless toggle_info
         toggle_info['active'] = true
@@ -49,9 +49,9 @@ module ChirrinChirrion
 
       # Makes a toggle, existent or not, iactive:
       #
-      # redis_adapter.inactivate('my_feature')
+      # redis_adapter.inactivate!('my_feature')
       #
-      def inactivate(toggle_name)
+      def inactivate!(toggle_name)
         toggle_info = get_toggle_info(toggle_name)
         raise ChirrinChirrion::Errors::ToggleNotFound, "The toggle #{toggle_name} was not found" unless toggle_info
         toggle_info['active'] = false

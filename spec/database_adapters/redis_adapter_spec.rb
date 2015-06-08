@@ -38,11 +38,11 @@ describe ChirrinChirrion::DatabaseAdapters::RedisAdapter do
     end
   end
 
-  describe '#activate' do
+  describe '#activate!' do
     context 'when there is no toggle' do
       it 'raises toggle not found error' do
         expect(redis_database).to receive(:hget).with('chirrin-chirrion-toggles', toggle_name) { nil }
-        expect{subject.activate(toggle_name)}.to raise_error(ChirrinChirrion::Errors::ToggleNotFound, "The toggle #{toggle_name} was not found")
+        expect{subject.activate!(toggle_name)}.to raise_error(ChirrinChirrion::Errors::ToggleNotFound, "The toggle #{toggle_name} was not found")
       end
     end
 
@@ -52,16 +52,16 @@ describe ChirrinChirrion::DatabaseAdapters::RedisAdapter do
         activated_toggle_info = {active: true, description: 'This toggle active de Feature Y which allow us to do that'}
         expect(redis_database).to receive(:hget).with('chirrin-chirrion-toggles', toggle_name) { toggle_info.to_json }
         expect(redis_database).to receive(:hset).with('chirrin-chirrion-toggles', toggle_name, activated_toggle_info.to_json) { 1 }
-        subject.activate(toggle_name)
+        subject.activate!(toggle_name)
       end
     end
   end
 
-  describe '#inactivate' do
+  describe '#inactivate!' do
     context 'when there is no toggle' do
       it 'raises toggle not found error' do
         expect(redis_database).to receive(:hget).with('chirrin-chirrion-toggles', toggle_name) { nil }
-        expect{subject.inactivate(toggle_name)}.to raise_error(ChirrinChirrion::Errors::ToggleNotFound, "The toggle #{toggle_name} was not found")
+        expect{subject.inactivate!(toggle_name)}.to raise_error(ChirrinChirrion::Errors::ToggleNotFound, "The toggle #{toggle_name} was not found")
       end
     end
 
@@ -71,7 +71,7 @@ describe ChirrinChirrion::DatabaseAdapters::RedisAdapter do
         inactivated_toggle_info = { active: false, description: 'This toggle active de Feature Y which allow us to do that'}
         expect(redis_database).to receive(:hget).with('chirrin-chirrion-toggles', toggle_name) { toggle_info.to_json }
         expect(redis_database).to receive(:hset).with('chirrin-chirrion-toggles', toggle_name, inactivated_toggle_info.to_json) { 1 }
-        subject.inactivate(toggle_name)
+        subject.inactivate!(toggle_name)
       end
     end
   end

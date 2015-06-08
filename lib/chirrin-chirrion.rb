@@ -43,20 +43,20 @@ module ChirrinChirrion
 
   # Makes a toggle active (the toggle must already be registered)
   #
-  # ChirrinChirrion.chirrin('my_inactive_feature')
+  # ChirrinChirrion.chirrin!('my_inactive_feature')
   # ChirrinChirrion.chirrin?('my_inactive_feature') #=> true
   #
-  def self.chirrin(toggle_name)
-    database_adapter.activate(toggle_name)
+  def self.chirrin!(toggle_name)
+    database_adapter.activate!(toggle_name)
   end
 
   # Makes a toggle inactive
   #
-  # ChirrinChirrion.chirrion('my_active_feature')
+  # ChirrinChirrion.chirrion!('my_active_feature')
   # ChirrinChirrion.chirrion?('my_active_feature') #=> false
   #
-  def self.chirrion(toggle_name)
-    database_adapter.inactivate(toggle_name)
+  def self.chirrion!(toggle_name)
+    database_adapter.inactivate!(toggle_name)
   end
 
   # Checks if a toggle active (the toggle must already be registered)
