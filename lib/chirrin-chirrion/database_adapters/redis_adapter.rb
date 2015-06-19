@@ -64,9 +64,8 @@ module ChirrinChirrion
       end
 
       def active?(toggle_name)
-        toggle_info = redis_database.hget(TOGGLES_HASH_KEY, toggle_name)
+        toggle_info = get_toggle_info(toggle_name)
         return false unless toggle_info
-        toggle_info = JSON.parse(toggle_info)
 
         toggle_info['active'].eql?(true)
       end
