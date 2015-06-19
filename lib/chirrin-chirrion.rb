@@ -97,5 +97,14 @@ module ChirrinChirrion
     end
   end
 
+  # Returns a list of registered toggles
+  # The objects of the list respond to the following basic methods:
+  #  - name
+  #  - active
+  #  - description
+  def self.list
+    database_adapter.list
+  end
+
   private_class_method :database_adapter
 end

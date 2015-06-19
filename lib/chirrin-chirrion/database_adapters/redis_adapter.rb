@@ -1,3 +1,5 @@
+require 'ostruct'
+
 module ChirrinChirrion
   module DatabaseAdapters
     class RedisAdapter
@@ -71,6 +73,16 @@ module ChirrinChirrion
 
       def inactive?(toggle_name)
         !active?(toggle_name)
+      end
+
+      def list
+        toggles = redis_database.hgetall(TOGGLES_HASH_KEY)
+
+        toggles.map do |toggle_name, toggle_info|
+          toggle_details = JSON.parse(toggle_info).merge('name' => toggle_name)
+
+          OpenStruct.new(toggle_details)
+        end
       end
 
       private

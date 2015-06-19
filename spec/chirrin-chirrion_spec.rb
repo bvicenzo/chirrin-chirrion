@@ -2,10 +2,10 @@ require 'spec_helper'
 
 describe ChirrinChirrion do
   let(:database_adapter) { double }
+  before { ChirrinChirrion.config(database_adapter: database_adapter) }
 
   describe ".add_toggle" do
     let(:toggle_name) { 'my_toggle' }
-    before { ChirrinChirrion.config(database_adapter: database_adapter) }
 
     context 'when the database adapter returns ok' do
       before { allow(database_adapter).to receive(:add_toggle) { true } }
@@ -26,7 +26,6 @@ describe ChirrinChirrion do
 
   describe ".remove_toggle" do
     let(:toggle_name) { 'my_toggle' }
-    before { ChirrinChirrion.config(database_adapter: database_adapter) }
 
     context 'when the database adapter returns ok' do
       before { allow(database_adapter).to receive(:remove_toggle) { true } }
@@ -47,7 +46,6 @@ describe ChirrinChirrion do
 
   describe ".chirrin!" do
     let(:toggle_name) { 'my_toggle' }
-    before { ChirrinChirrion.config(database_adapter: database_adapter) }
 
     context 'when the database adapter returns ok' do
       before { allow(database_adapter).to receive(:activate!) { true } }
@@ -68,7 +66,6 @@ describe ChirrinChirrion do
 
   describe ".chirrion!" do
     let(:toggle_name) { 'my_toggle' }
-    before { ChirrinChirrion.config(database_adapter: database_adapter) }
 
     context 'when the database adapter returns ok' do
       before { allow(database_adapter).to receive(:inactivate!) { true } }
@@ -89,7 +86,6 @@ describe ChirrinChirrion do
 
   describe ".chirrin?" do
     let(:toggle_name) { 'my_toggle' }
-    before { ChirrinChirrion.config(database_adapter: database_adapter) }
 
     context 'when the database adapter returns ok' do
       before { allow(database_adapter).to receive(:active?) { true } }
@@ -110,7 +106,6 @@ describe ChirrinChirrion do
 
   describe ".chirrion?" do
     let(:toggle_name) { 'my_toggle' }
-    before { ChirrinChirrion.config(database_adapter: database_adapter) }
 
     context 'when the database adapter returns ok' do
       before { allow(database_adapter).to receive(:inactive?) { false } }
@@ -131,7 +126,6 @@ describe ChirrinChirrion do
 
   describe ".chirrin_chirrion" do
     let(:toggle_name) { 'my_toggle' }
-    before { ChirrinChirrion.config(database_adapter: database_adapter) }
 
     context 'when the toggle is turned on' do
       before { allow(database_adapter).to receive(:active?) { true } }
@@ -174,6 +168,26 @@ describe ChirrinChirrion do
         it 'executes chirrin proc' do
           expect(subject.chirrin_chirrion(toggle_name, for_chirrin, for_chirrion)).to eq('Este idiota, Chirrion!!!!')
         end
+      end
+    end
+  end
+
+  describe '.list' do
+    before { allow(database_adapter).to receive(:list).and_return(database_adapter_list) }
+
+    context 'when adapter retunrs a empty list' do
+      let(:database_adapter_list) { [] }
+
+      it 'returns the empty list' do
+        expect(subject.list).to be_empty
+      end
+    end
+
+    context 'when the adapter returns a list' do
+      let(:database_adapter_list) {[OpenStruct.new, OpenStruct.new]}
+
+      it 'returns the list' do
+        expect(subject.list.size).to eq(2)
       end
     end
   end

@@ -144,4 +144,28 @@ describe ChirrinChirrion::DatabaseAdapters::RedisAdapter do
       end
     end
   end
+
+  describe '#list' do
+    before { allow(redis_database).to receive(:hgetall).with('chirrin-chirrion-toggles').and_return(toggles_list)}
+
+    context 'when the list is empty' do
+      let(:toggles_list) { {} }
+
+      it 'returns a empty array' do
+        expect(subject.list).to eq []
+      end
+    end
+
+    context 'when the list is not empty' do
+      let(:toggles_list) { {'best_sellers' => '{"active":false,"description":"it allows to show best sellers on home"}', 'new_user_register_validation' => '{"active":true,"description":"When this is active, gender, age and phone number are not required"}'} }
+
+      it 'return the list in a Open Struct format' do
+        expect(subject.list.size).to eq(2)
+        first_element= subject.list.first
+        expect(first_element.name).to eq('best_sellers')
+        expect(first_element.active).to be_falsy
+        expect(first_element.description).to eq('it allows to show best sellers on home')
+      end
+    end
+  end
 end
