@@ -1,7 +1,7 @@
 # Change Log
 All notable changes of the project you will find here.
 
-## Coming
+## [0.4.1] - 2015-07-17
 ### Changed
  - Unlocked JSON gem version to avoid conflict versions
 
