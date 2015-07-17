@@ -1,6 +1,10 @@
 # Change Log
 All notable changes of the project you will find here.
 
+## Coming
+### Changed
+ - Unlocked JSON gem version to avoid conflict versions
+
 ## [0.4.0] - 2015-06-19
 ### Changed
  - Redis adaprer: new method #list which returns all registered toggles 
