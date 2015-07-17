@@ -29,5 +29,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'redis', '~> 3.2.1'
   
   #Runtime dependencies
-  spec.add_runtime_dependency 'json', '~> 1.8.2'
+  spec.add_runtime_dependency 'json', '>= 1'
 end
