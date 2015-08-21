@@ -29,6 +29,7 @@ module ChirrinChirrion
   # ChirrinChirrion.add_toggle('my_inactive_feature')
   #
   def self.add_toggle(toggle_name, toggle_info = {})
+    fail(ChirrinChirrion::Errors::ToggleIsRequired, 'Toggle name has not been sent.') if toggle_name.nil? || toggle_name.empty?
     database_adapter.add_toggle(toggle_name, toggle_info)
   end
 

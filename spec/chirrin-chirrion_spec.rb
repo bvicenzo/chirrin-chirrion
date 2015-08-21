@@ -5,21 +5,31 @@ describe ChirrinChirrion do
   before { ChirrinChirrion.config(database_adapter: database_adapter) }
 
   describe ".add_toggle" do
-    let(:toggle_name) { 'my_toggle' }
+    context 'when toggle name is sent' do
+      let(:toggle_name) { 'my_toggle' }
 
-    context 'when the database adapter returns ok' do
-      before { allow(database_adapter).to receive(:add_toggle) { true } }
+      context 'when the database adapter returns ok' do
+        before { allow(database_adapter).to receive(:add_toggle) { true } }
 
-      it 'returns true' do
-        expect(subject.add_toggle(toggle_name, {active: true, description: 'This feature do that'})).to eq(true)
+        it 'returns true' do
+          expect(subject.add_toggle(toggle_name, {active: true, description: 'This feature do that'})).to eq(true)
+        end
+      end
+
+      context 'when the database adapter returns nok' do
+        before { allow(database_adapter).to receive(:add_toggle) { false } }
+
+        it 'returns false' do
+          expect(subject.add_toggle(toggle_name, {active: true, description: 'This feature do that'})).to eq(false)
+        end
       end
     end
 
-    context 'when the database adapter returns nok' do
-      before { allow(database_adapter).to receive(:add_toggle) { false } }
+    context 'when toggle name is not sent' do
+      let(:toggle_name) { '' }
 
       it 'returns false' do
-        expect(subject.add_toggle(toggle_name, {active: true, description: 'This feature do that'})).to eq(false)
+        expect { subject.add_toggle(toggle_name) }.to raise_error(ChirrinChirrion::Errors::ToggleIsRequired, 'Toggle name has not been sent.')
       end
     end
   end
