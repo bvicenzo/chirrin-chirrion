@@ -20,6 +20,13 @@ redis_adapter    = ChirrinChirrion::DatabaseAdapters::RedisAdapter.new(redis_con
 ChirrinChirrion.config(database_adapter: redis_adapter)
 ```
 
+### Listing toggles
+
+```ruby
+ChirrinChirrion.list
+# => [#<OpenStruct description="What the toggle does.", active=true, name="toggle_name">]
+```
+
 ### Adding a toggle
 ```ruby
 ChirrinChirrion.add_toggle('new_user_register_validation', {active: true, description: 'When this is active, gender, age and phone number are not required'})

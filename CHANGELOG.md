@@ -1,6 +1,10 @@
 # Change Log
 All notable changes of the project you will find here.
 
+## [0.5.1] - 2015-08-21
+### Changed
+ - Add toggle rises an exeption when toggle name is not sent
+
 ## [0.4.1] - 2015-07-17
 ### Changed
  - Unlocked JSON gem version to avoid conflict versions
