@@ -1,9 +1,8 @@
 # Chirrin Chirrion
-Chirrin Chirrion is a gem to, easily, change the software behavior for new features, fixes, etc.
+Chirrin Chirrion is a gem to manage feature toggle, allowing developers to easily change the software behavior by showing/hiding new features and fixes.
 
 ## Inspiration
-The gem name was inspired in a funny Chapolim Colorado [episode](https://youtu.be/dzgrex7g_zY) called 'Chirrin Chirrion del Diablo'.
-Where there is a magic object which the the key word 'chirrin' gives a new thing and 'chirrion' takes it away.
+The gem name was inspired by a funny Chapolim Colorado [episode](https://youtu.be/dzgrex7g_zY) called 'Chirrin Chirrion del Diablo', where there was a magic wand that created new things if its bearer used the magic word 'chirrin', and those things were destroyed with the word 'chirrion'.
 
 ## Install
 
@@ -16,7 +15,7 @@ Where there is a magic object which the the key word 'chirrin' gives a new thing
 ```ruby
 require 'chirrin-chirrion'
 redis_connection = Redis.new
-redis_adapter    = ChirrinChirrion::DatabaseAdapters::RedisAdapter.new(redis_connection)
+redis_adapter = ChirrinChirrion::DatabaseAdapters::RedisAdapter.new(redis_connection)
 ChirrinChirrion.config(database_adapter: redis_adapter)
 ```
 
@@ -60,10 +59,10 @@ end
 ```ruby
 chirrin_behavior = lambda do
   # do a lot of things
-  {result: 'of things'}
+  { result: 'of things' }
 end
 
-chirrion_behavior = {result: 'old static result'}
+chirrion_behavior = { result: 'old static result' }
 
 ChirrinChirrion.chirrin_chirrion('my_toggle', chirrin_behavior, chirrion_behavior)
 ```
