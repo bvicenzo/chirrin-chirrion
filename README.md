@@ -28,7 +28,7 @@ ChirrinChirrion.list
 
 ### Adding a toggle
 ```ruby
-ChirrinChirrion.add_toggle('new_user_register_validation', {active: true, description: 'When this is active, gender, age and phone number are not required'})
+ChirrinChirrion.add_toggle('new_user_register_validation', { active: true, description: 'When this is active, gender, age and phone number are not required' })
 ```
 
 ### Removing a toggle
@@ -65,4 +65,20 @@ end
 chirrion_behavior = { result: 'old static result' }
 
 ChirrinChirrion.chirrin_chirrion('my_toggle', chirrin_behavior, chirrion_behavior)
+```
+
+### Configure a toggle to be activated in a specific time
+
+```ruby
+ChirrinChirrion.add_toggle('my_toggle', { active: false, valid_after: Time.parse('2018-10-10 14:35') })
+
+
+# before the date:
+ChirrinChirrion.chirrin?('my_toggle')
+# => false
+
+# after the date:
+ChirrinChirrion.chirrin?('my_toggle')
+# => true
+
 ```

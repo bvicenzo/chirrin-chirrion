@@ -5,6 +5,7 @@ All notable changes of the project you will find here.
 ### Changed
  - Use single quotes throughout the classes
  - Minor fix on methods documentation
+ - Add capability to set a time when the trigger will become active
 
 
 ## [0.5.1] - 2015-08-21
