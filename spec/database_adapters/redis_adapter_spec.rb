@@ -123,7 +123,7 @@ describe ChirrinChirrion::DatabaseAdapters::RedisAdapter do
         let(:toggle_info) { { active: false, valid_after: Time.now + 1 } }
 
         it 'returns false' do
-          expect(subject.active?(toggle_name)).to eq(false)
+          expect(subject.active?(toggle_name)).to be_falsy
         end
       end
 
@@ -133,8 +133,8 @@ describe ChirrinChirrion::DatabaseAdapters::RedisAdapter do
         before { allow(Time).to receive(:now).and_return(date) }
 
         it 'activates the toggle' do
-          expect(redis_database).to receive(:hset).with('chirrin-chirrion-toggles', toggle_name, { active: true, valid_after: date }.to_json) { 1 }
-          subject.active?(toggle_name)
+          expect(redis_database).to receive(:hset).with('chirrin-chirrion-toggles', toggle_name, { active: true }.to_json) { 1 }
+          expect(subject.active?(toggle_name)).to be_truthy
         end
       end
 
@@ -142,8 +142,8 @@ describe ChirrinChirrion::DatabaseAdapters::RedisAdapter do
         let(:toggle_info) { { active: false, valid_after: Time.now - 1 } }
 
         it 'activates the toggle' do
-          expect(redis_database).to receive(:hset).with('chirrin-chirrion-toggles', toggle_name, { active: true, valid_after: toggle_info[:valid_after] }.to_json) { 1 }
-          subject.active?(toggle_name)
+          expect(redis_database).to receive(:hset).with('chirrin-chirrion-toggles', toggle_name, { active: true }.to_json) { 1 }
+          expect(subject.active?(toggle_name)).to be_truthy
         end
       end
     end

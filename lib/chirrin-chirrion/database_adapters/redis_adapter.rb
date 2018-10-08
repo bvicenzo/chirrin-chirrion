@@ -14,8 +14,8 @@ module ChirrinChirrion
 
       # Adds a toggle to the database:
       #
-      # redis_adapter.add_toggle('my_active_feature', {active: true, description: 'What other people must know to understand what this toggle activates'})
-      # redis_adapter.add_toggle('my_inactive_feature', {description: 'What other people must know to understand what this toggle activates'})
+      # redis_adapter.add_toggle('my_active_feature', { active: true, description: 'What other people must know to understand what this toggle activates' })
+      # redis_adapter.add_toggle('my_inactive_feature', { description: 'What other people must know to understand what this toggle activates' })
       # redis_adapter.add_toggle('my_inactive_feature')
       #
       def add_toggle(toggle_name, toggle_info = {})
@@ -68,7 +68,7 @@ module ChirrinChirrion
         toggle_info = get_toggle_info(toggle_name)
         return false unless toggle_info
 
-        activate_scheduled_toggle(toggle_name, toggle_info['valid_after'])
+        activate_scheduled_toggle(toggle_name, toggle_info)
 
         toggle_info['active'].eql?(true)
       end
@@ -96,10 +96,16 @@ module ChirrinChirrion
         JSON.parse(toggle_info)
       end
 
-      def activate_scheduled_toggle(toggle_name, valid_after)
+      def activate_scheduled_toggle(toggle_name, toggle_info)
+        valid_after = toggle_info['valid_after']
         return unless valid_after
 
-        activate!(toggle_name) if Time.parse(valid_after) <= Time.now
+        if Time.parse(valid_after) <= Time.now
+          toggle_info['active'] = true
+          toggle_info.delete('valid_after')
+
+          redis_database.hset(TOGGLES_HASH_KEY, toggle_name, toggle_info.to_json)
+        end
       end
     end
   end
