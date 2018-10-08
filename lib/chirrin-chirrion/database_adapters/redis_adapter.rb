@@ -1,4 +1,5 @@
 require 'ostruct'
+require 'time'
 
 module ChirrinChirrion
   module DatabaseAdapters
@@ -67,6 +68,8 @@ module ChirrinChirrion
         toggle_info = get_toggle_info(toggle_name)
         return false unless toggle_info
 
+        activate_scheduled_toggle(toggle_name, toggle_info['valid_after'])
+
         toggle_info['active'].eql?(true)
       end
 
@@ -91,6 +94,12 @@ module ChirrinChirrion
         return nil unless toggle_info
 
         JSON.parse(toggle_info)
+      end
+
+      def activate_scheduled_toggle(toggle_name, valid_after)
+        return unless valid_after
+
+        activate!(toggle_name) if Time.parse(valid_after) <= Time.now
       end
     end
   end

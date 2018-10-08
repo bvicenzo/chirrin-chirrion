@@ -9,13 +9,13 @@ describe ChirrinChirrion::DatabaseAdapters::RedisAdapter do
     before { allow(redis_database).to receive(:hset) { 'OK' } }
 
     it 'adds the toggle to database' do
-      toggle_info = {description: 'This toggle active de Feature X which allow us to do this'}
-      expect(redis_database).to receive(:hset).with('chirrin-chirrion-toggles', toggle_name, {description: 'This toggle active de Feature X which allow us to do this', active: false}.to_json) { 1 }
+      toggle_info = { description: 'This toggle active de Feature X which allow us to do this' }
+      expect(redis_database).to receive(:hset).with('chirrin-chirrion-toggles', toggle_name, { description: 'This toggle active de Feature X which allow us to do this', active: false }.to_json) { 1 }
       subject.add_toggle(toggle_name, toggle_info)
     end
 
     it 'adds the active toggle to database' do
-      toggle_info = {active: true, description: 'This toggle active de Feature Y which allow us to do that'}
+      toggle_info = { active: true, description: 'This toggle active de Feature Y which allow us to do that' }
       expect(redis_database).to receive(:hset).with('chirrin-chirrion-toggles', toggle_name, {active: true, description: 'This toggle active de Feature Y which allow us to do that'}.to_json) { 1 }
       subject.add_toggle(toggle_name, toggle_info)
     end
@@ -48,8 +48,8 @@ describe ChirrinChirrion::DatabaseAdapters::RedisAdapter do
 
     context 'when there is toggle' do
       it 'makes a toggle active' do
-        toggle_info           = {active: false, description: 'This toggle active de Feature Y which allow us to do that'}
-        activated_toggle_info = {active: true, description: 'This toggle active de Feature Y which allow us to do that'}
+        toggle_info           = { active: false, description: 'This toggle active de Feature Y which allow us to do that' }
+        activated_toggle_info = { active: true, description: 'This toggle active de Feature Y which allow us to do that' }
         expect(redis_database).to receive(:hget).with('chirrin-chirrion-toggles', toggle_name) { toggle_info.to_json }
         expect(redis_database).to receive(:hset).with('chirrin-chirrion-toggles', toggle_name, activated_toggle_info.to_json) { 1 }
         subject.activate!(toggle_name)
@@ -78,10 +78,10 @@ describe ChirrinChirrion::DatabaseAdapters::RedisAdapter do
 
   describe '#active?' do
     context 'when the toggle is active' do
-      before { allow(redis_database).to receive(:hget) { {active: true}.to_json } }
+      before { allow(redis_database).to receive(:hget) { { active: true }.to_json } }
 
       it 'search the toggle on database' do
-        expect(redis_database).to receive(:hget).with('chirrin-chirrion-toggles', toggle_name) { {active: true}.to_json }
+        expect(redis_database).to receive(:hget).with('chirrin-chirrion-toggles', toggle_name) { { active: true }.to_json }
         subject.active?(toggle_name)
       end
 
@@ -91,10 +91,10 @@ describe ChirrinChirrion::DatabaseAdapters::RedisAdapter do
     end
 
     context 'when the toggle is inactive' do
-      before { allow(redis_database).to receive(:hget) { {active: false}.to_json } }
+      before { allow(redis_database).to receive(:hget) { { active: false }.to_json } }
 
       it 'search the toggle on database' do
-        expect(redis_database).to receive(:hget).with('chirrin-chirrion-toggles', toggle_name) { {active: false}.to_json }
+        expect(redis_database).to receive(:hget).with('chirrin-chirrion-toggles', toggle_name) { { active: false }.to_json }
         subject.active?(toggle_name)
       end
 
@@ -113,6 +113,38 @@ describe ChirrinChirrion::DatabaseAdapters::RedisAdapter do
 
       it 'returns false' do
         expect(subject.active?(toggle_name)).to eq(false)
+      end
+    end
+
+    context 'when the toggle is scheduled to start at a specific date' do
+      before { allow(redis_database).to receive(:hget) { toggle_info.to_json } }
+
+      context 'and the start date is in the future' do
+        let(:toggle_info) { { active: false, valid_after: Time.now + 1 } }
+
+        it 'returns false' do
+          expect(subject.active?(toggle_name)).to eq(false)
+        end
+      end
+
+      context 'and the start date is now' do
+        let(:date) { Time.now }
+        let(:toggle_info) { { active: false, valid_after: date } }
+        before { allow(Time).to receive(:now).and_return(date) }
+
+        it 'activates the toggle' do
+          expect(redis_database).to receive(:hset).with('chirrin-chirrion-toggles', toggle_name, { active: true, valid_after: date }.to_json) { 1 }
+          subject.active?(toggle_name)
+        end
+      end
+
+      context 'and the start date is in the past' do
+        let(:toggle_info) { { active: false, valid_after: Time.now - 1 } }
+
+        it 'activates the toggle' do
+          expect(redis_database).to receive(:hset).with('chirrin-chirrion-toggles', toggle_name, { active: true, valid_after: toggle_info[:valid_after] }.to_json) { 1 }
+          subject.active?(toggle_name)
+        end
       end
     end
   end
