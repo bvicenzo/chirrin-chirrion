@@ -84,8 +84,8 @@ module ChirrinChirrion
   #
   # ChirrinChirrion.chirrin('mult_for_2')
   # ten_numbers            = (1..10).to_a
-  # actiction_for_chirrin  = lambda { ten_numbers.map{|number| number * 2 } }
-  # actiction_for_chirrion = lambda { ten_numbers.map{|number| number * 4 } }
+  # action_for_chirrin  = lambda { ten_numbers.map{|number| number * 2 } }
+  # action_for_chirrion = lambda { ten_numbers.map{|number| number * 4 } }
   # ChirrinChirrion.chirrin_chirrion('mult_for_2', action_for_chirrin, action_for_chirrion) #=> [4, 8, 12, 16, 20, 24, 28, 32, 36, 40]
   # ChirrinChirrion.chirrin('mult_for_2')
   # ChirrinChirrion.chirrin_chirrion('mult_for_2', action_for_chirrin, action_for_chirrion) #=> [2, 4, 6, 8, 10, 12, 14, 16, 18, 20]

@@ -1,6 +1,12 @@
 # Change Log
 All notable changes of the project you will find here.
 
+## [0.5.2] - 2015-08-21
+### Changed
+ - Use single quotes throughout the classes
+ - Minor fix on methods documentation
+
+
 ## [0.5.1] - 2015-08-21
 ### Changed
  - Add toggle rises an exeption when toggle name is not sent
@@ -11,8 +17,8 @@ All notable changes of the project you will find here.
 
 ## [0.4.0] - 2015-06-19
 ### Changed
- - Redis adaprer: new method #list which returns all registered toggles 
- - ChirrinChirrion: new method #list which returns all registered toggles 
+ - Redis adaprer: new method #list which returns all registered toggles
+ - ChirrinChirrion: new method #list which returns all registered toggles
 
 ## [0.3.0] - 2015-06-08
 ### Changed
