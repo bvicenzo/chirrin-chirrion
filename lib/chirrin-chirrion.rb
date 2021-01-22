@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'chirrin-chirrion/version'
 require 'chirrin-chirrion/errors'
 require 'chirrin-chirrion/database_adapters/redis_adapter'
