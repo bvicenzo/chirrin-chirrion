@@ -4,6 +4,8 @@ require 'ostruct'
 
 module ChirrinChirrion
   module DatabaseAdapters
+    # Redis Adapter provides methods to store and
+    # recover toggles from a redis database
     class RedisAdapter
       TOGGLES_HASH_KEY = 'chirrin-chirrion-toggles'
       attr_reader :redis_database
@@ -15,8 +17,21 @@ module ChirrinChirrion
 
       # Adds a toggle to the database:
       #
-      # redis_adapter.add_toggle('my_active_feature', {active: true, description: 'What other people must know to understand what this toggle activates'})
-      # redis_adapter.add_toggle('my_inactive_feature', {description: 'What other people must know to understand what this toggle activates'})
+      # redis_adapter.add_toggle(
+      #   'my_active_feature',
+      #   {
+      #     active: true,
+      #     description: 'What other people must know to understand what this toggle activates'
+      #   }
+      # )
+      #
+      # redis_adapter.add_toggle(
+      #   'my_inactive_feature',
+      #   {
+      #     description: 'What other people must know to understand what this toggle activates'
+      #   }
+      # )
+      #
       # redis_adapter.add_toggle('my_inactive_feature')
       #
       def add_toggle(toggle_name, toggle_info = {})
@@ -44,6 +59,7 @@ module ChirrinChirrion
       def activate!(toggle_name)
         toggle_info = get_toggle_info(toggle_name)
         raise ChirrinChirrion::Errors::ToggleNotFound, "The toggle #{toggle_name} was not found" unless toggle_info
+
         toggle_info['active'] = true
 
         redis_database.hset(TOGGLES_HASH_KEY, toggle_name, toggle_info.to_json)
@@ -58,6 +74,7 @@ module ChirrinChirrion
       def inactivate!(toggle_name)
         toggle_info = get_toggle_info(toggle_name)
         raise ChirrinChirrion::Errors::ToggleNotFound, "The toggle #{toggle_name} was not found" unless toggle_info
+
         toggle_info['active'] = false
 
         redis_database.hset(TOGGLES_HASH_KEY, toggle_name, toggle_info.to_json)
