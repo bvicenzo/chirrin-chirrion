@@ -2,7 +2,7 @@
 Chirrin Chirrion is a gem to manage feature toggle, allowing developers to easily change the software behavior by showing/hiding new features and fixes.
 
 ## Inspiration
-The gem name was inspired by a funny Chapolim Colorado [episode](https://youtu.be/dzgrex7g_zY) called 'Chirrin Chirrion del Diablo', where there was a magic wand that created new things if its bearer used the magic word 'chirrin', and those things were destroyed with the word 'chirrion'.
+The gem name was inspired by a funny Chapolim Colorado [episode](https://www.youtube.com/watch?v=ZRFFOiQsQOQ) called 'Chirrin Chirrion del Diablo', where there was a magic wand that created new things if its bearer used the magic word 'chirrin', and those things were destroyed with the word 'chirrion'.
 
 ## Install
 
