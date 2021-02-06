@@ -6,7 +6,7 @@ describe ChirrinChirrion do
   let(:database_adapter) { double }
   before { ChirrinChirrion.config(database_adapter: database_adapter) }
 
-  describe ".add_toggle" do
+  describe '.add_toggle' do
     context 'when toggle name is sent' do
       let(:toggle_name) { 'my_toggle' }
 
@@ -14,7 +14,7 @@ describe ChirrinChirrion do
         before { allow(database_adapter).to receive(:add_toggle) { true } }
 
         it 'returns true' do
-          expect(subject.add_toggle(toggle_name, {active: true, description: 'This feature do that'})).to eq(true)
+          expect(subject.add_toggle(toggle_name, { active: true, description: 'This feature do that' })).to eq(true)
         end
       end
 
@@ -22,7 +22,7 @@ describe ChirrinChirrion do
         before { allow(database_adapter).to receive(:add_toggle) { false } }
 
         it 'returns false' do
-          expect(subject.add_toggle(toggle_name, {active: true, description: 'This feature do that'})).to eq(false)
+          expect(subject.add_toggle(toggle_name, { active: true, description: 'This feature do that' })).to eq(false)
         end
       end
     end
@@ -31,12 +31,15 @@ describe ChirrinChirrion do
       let(:toggle_name) { '' }
 
       it 'returns false' do
-        expect { subject.add_toggle(toggle_name) }.to raise_error(ChirrinChirrion::Errors::ToggleIsRequired, 'Toggle name has not been sent.')
+        expect { subject.add_toggle(toggle_name) }.to raise_error(
+          ChirrinChirrion::Errors::ToggleIsRequired,
+          'Toggle name has not been sent.'
+        )
       end
     end
   end
 
-  describe ".remove_toggle" do
+  describe '.remove_toggle' do
     let(:toggle_name) { 'my_toggle' }
 
     context 'when the database adapter returns ok' do
@@ -56,7 +59,7 @@ describe ChirrinChirrion do
     end
   end
 
-  describe ".chirrin!" do
+  describe '.chirrin!' do
     let(:toggle_name) { 'my_toggle' }
 
     context 'when the database adapter returns ok' do
@@ -76,7 +79,7 @@ describe ChirrinChirrion do
     end
   end
 
-  describe ".chirrion!" do
+  describe '.chirrion!' do
     let(:toggle_name) { 'my_toggle' }
 
     context 'when the database adapter returns ok' do
@@ -96,7 +99,7 @@ describe ChirrinChirrion do
     end
   end
 
-  describe ".chirrin?" do
+  describe '.chirrin?' do
     let(:toggle_name) { 'my_toggle' }
 
     context 'when the database adapter returns ok' do
@@ -116,7 +119,7 @@ describe ChirrinChirrion do
     end
   end
 
-  describe ".chirrion?" do
+  describe '.chirrion?' do
     let(:toggle_name) { 'my_toggle' }
 
     context 'when the database adapter returns ok' do
@@ -136,7 +139,7 @@ describe ChirrinChirrion do
     end
   end
 
-  describe ".chirrin_chirrion" do
+  describe '.chirrin_chirrion' do
     let(:toggle_name) { 'my_toggle' }
 
     context 'when the toggle is turned on' do
@@ -152,8 +155,8 @@ describe ChirrinChirrion do
       end
 
       context 'and instruction for chirrin is a proc' do
-        let(:for_chirrin) { lambda { 'Margarida, Chirrin!!!!' } }
-        let(:for_chirrion) { lambda { 'Este idiota, Chirrion!!!!' } }
+        let(:for_chirrin) { -> { 'Margarida, Chirrin!!!!' } }
+        let(:for_chirrion) { -> { 'Este idiota, Chirrion!!!!' } }
 
         it 'executes chirrin proc' do
           expect(subject.chirrin_chirrion(toggle_name, for_chirrin, for_chirrion)).to eq('Margarida, Chirrin!!!!')
@@ -174,8 +177,8 @@ describe ChirrinChirrion do
       end
 
       context 'and instruction for chirrin is a proc' do
-        let(:for_chirrin) { lambda { 'Margarida, Chirrin!!!!' } }
-        let(:for_chirrion) { lambda { 'Este idiota, Chirrion!!!!' } }
+        let(:for_chirrin) { -> { 'Margarida, Chirrin!!!!' } }
+        let(:for_chirrion) { -> { 'Este idiota, Chirrion!!!!' } }
 
         it 'executes chirrin proc' do
           expect(subject.chirrin_chirrion(toggle_name, for_chirrin, for_chirrion)).to eq('Este idiota, Chirrion!!!!')
@@ -196,7 +199,7 @@ describe ChirrinChirrion do
     end
 
     context 'when the adapter returns a list' do
-      let(:database_adapter_list) {[OpenStruct.new, OpenStruct.new]}
+      let(:database_adapter_list) { [OpenStruct.new, OpenStruct.new] }
 
       it 'returns the list' do
         expect(subject.list.size).to eq(2)

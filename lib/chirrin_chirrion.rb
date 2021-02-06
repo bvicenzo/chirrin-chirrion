@@ -5,8 +5,8 @@ require 'chirrin-chirrion/errors'
 require 'chirrin-chirrion/database_adapters/redis_adapter'
 require 'json'
 
+# Public interface of API
 module ChirrinChirrion
-
   # Defines the configuration for Chirrin Chirrion.
   # The config are:
   #  - database_adapter, an adapter which wrap the database management to provide the correct service
@@ -31,7 +31,10 @@ module ChirrinChirrion
   # ChirrinChirrion.add_toggle('my_inactive_feature')
   #
   def self.add_toggle(toggle_name, toggle_info = {})
-    fail(ChirrinChirrion::Errors::ToggleIsRequired, 'Toggle name has not been sent.') if toggle_name.nil? || toggle_name.empty?
+    if toggle_name.nil? || toggle_name.empty?
+      raise(ChirrinChirrion::Errors::ToggleIsRequired, 'Toggle name has not been sent.')
+    end
+
     database_adapter.add_toggle(toggle_name, toggle_info)
   end
 
@@ -88,9 +91,11 @@ module ChirrinChirrion
   # ten_numbers            = (1..10).to_a
   # actiction_for_chirrin  = lambda { ten_numbers.map{|number| number * 2 } }
   # actiction_for_chirrion = lambda { ten_numbers.map{|number| number * 4 } }
-  # ChirrinChirrion.chirrin_chirrion('mult_for_2', action_for_chirrin, action_for_chirrion) #=> [4, 8, 12, 16, 20, 24, 28, 32, 36, 40]
+  # ChirrinChirrion.chirrin_chirrion('mult_for_2', action_for_chirrin, action_for_chirrion)
+  # #=> [4, 8, 12, 16, 20, 24, 28, 32, 36, 40]
   # ChirrinChirrion.chirrin('mult_for_2')
-  # ChirrinChirrion.chirrin_chirrion('mult_for_2', action_for_chirrin, action_for_chirrion) #=> [2, 4, 6, 8, 10, 12, 14, 16, 18, 20]
+  # ChirrinChirrion.chirrin_chirrion('mult_for_2', action_for_chirrin, action_for_chirrion)
+  # #=> [2, 4, 6, 8, 10, 12, 14, 16, 18, 20]
   #
   def self.chirrin_chirrion(toggle_name, for_chirrin, for_chirrion)
     if chirrin?(toggle_name)
