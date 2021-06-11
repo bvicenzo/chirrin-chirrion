@@ -23,7 +23,7 @@ Gem::Specification.new do |spec|
   # Development dependencies
   spec.add_development_dependency 'bundler'
   spec.add_development_dependency 'rake', '~> 13.0'
-  spec.add_development_dependency 'redis', '~> 4.2.5'
+  spec.add_development_dependency 'redis', '~> 4.3.0'
   spec.add_development_dependency 'rspec', '~> 3.10.0'
 
   # Runtime dependencies
