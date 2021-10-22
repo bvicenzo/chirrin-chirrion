@@ -1,3 +1,6 @@
+before_install:
+  - sudo apt-get update && sudo apt-get install apt-transport-https ca-certificates -y && sudo update-ca-certificates # From: https://github.com/rvm/rvm/issues/5133#issuecomment-934516619
+dist: focal # instead of default xenial per https://github.com/rvm/rvm/issues/5133#issuecomment-932342146
 language: ruby
 rvm:
   - 2.6.6
